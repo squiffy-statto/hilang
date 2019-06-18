@@ -1,0 +1,27 @@
+```{r eval=TRUE, echo=FALSE, results="asis"}
+# take a character vector of parameters and inject
+#   the appropriate script tag for code mirror
+# ensures that the script tags are only inserted once
+
+for(i in seq_along(params$hilang)) {
+  
+  js_mode <- paste0(
+                    "\n <script src=\"https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/mode/", tolower(params$hilang[i]), "/",tolower(params$hilang[i]), ".min.js\"></script>\n")
+  cat(htmltools::htmlPreserve(js_mode))
+}
+
+```
+
+
+### Started trying to translate the hooks from the code mirror example to work for prism.
+
+
+params <- list(hilang = c("sas", "python"))
+
+
+for(i in seq_along(params$hilang)) {
+  
+  js_mode <- paste0(
+                    "\n <script src=\"prism.", tolower(params$hilang[i]), ".js\"></script>\n")
+  cat(htmltools::htmlPreserve(js_mode))
+}
