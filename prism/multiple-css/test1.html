@@ -1,0 +1,79 @@
+<head>
+<script src="prism.js"></script>
+<LINK rel="alternate stylesheet" title="sas" href="hilang.sas.css" type="text/css">
+<LINK rel="alternate stylesheet" title="python" href="hilang.python.css" type="text/css">
+</head>
+<body>
+
+This is some text about code in SAS. 
+
+<div style="sas"> 
+<pre><code class="language-sas">
+
+*** THIS IS THE SAS CODE ***;
+data parameters1;
+
+  do nsubjects = 100 to 400 by 25;
+  do trt_succ_prb = 0.6 to 1.0 by 0.1;
+  
+    *** PRIOR 1 IS THE EVENT RATE ON PLACEBO ***;
+    prior1_dtype = "Gamma";
+    prior1_parm1 = 5.90;
+    prior1_parm2 = 3.8;
+
+    *** PRIOR 2 IS THE PERCENTAGE REDUCTION IN EVENT RATE FOR TREATMENT CONDITIONAL ON IT WORKING ***;
+    prior2_dtype = "Gamma";
+    prior2_parm1 = 3.05;
+    prior2_parm2 = 0.15;
+
+    *** DISPERSION PARAMETER FOR BOTH PLACEBO AND TREATMENT NEGBIN DISTRIBUTIONS ***;
+    dispersion = 1;
+
+    output;
+  end;
+  end;
+
+run;
+
+proc mcmc data = parameters1
+          nbi = 200
+		  nmc = 200;
+  prior a ~ uniform(a,b);
+  parms a;
+  model y ~ binary(a);
+  beginnodata;
+    b = exp(a);
+  endnodata;
+run;
+
+</code></pre>
+</div>
+
+
+This is some text about code in Python.
+
+
+<div style="python">
+<pre><code class="language-python">
+
+## This is the python code
+import numpy as np
+a = np.arange(15).reshape(3, 5)
+a
+
+</code></pre>
+</div>
+
+This is some text about MATLAB.
+
+<div style="python">
+<pre><code class="language-matlab">
+%This is the MATLAB code
+%Create a matrix X of 100 five-dimensional normal variables and a response vector Y from just two components of X, with small added noise.
+X = randn(100,5)
+r = [0;2;0;-3;0] % only two nonzero coefficients
+Y = X*r + randn(100,1)*.1 % small added noise
+</code></pre>
+</div>
+</body>	
+

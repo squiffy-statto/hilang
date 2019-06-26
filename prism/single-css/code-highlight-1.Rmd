@@ -1,0 +1,95 @@
+---
+title: "RMD using prism code highlighting"
+author: "Thomas Drury"
+output:
+  html_document:
+    include:
+      in_header: setup/header.html
+    mathjax: null
+params:
+  hilang:
+    - sas
+---
+
+```{r, child="setup/prism_hilang.Rmd"}
+```
+
+<br>
+
+### This is some text about code in SAS. 
+
+<br>
+
+```{r, eval=FALSE, hilang="sas"}
+*** THIS IS THE SAS CODE ***;
+data parameters1;
+
+  do nsubjects = 100 to 400 by 25;
+  do trt_succ_prb = 0.6 to 1.0 by 0.1;
+  
+    *** PRIOR 1 IS THE EVENT RATE ON PLACEBO ***;
+    prior1_dtype = "Gamma";
+    prior1_parm1 = 5.90;
+    prior1_parm2 = 3.8;
+
+    *** PRIOR 2 IS THE PERCENTAGE REDUCTION IN EVENT RATE FOR TREATMENT CONDITIONAL ON IT WORKING ***;
+    prior2_dtype = "Gamma";
+    prior2_parm1 = 3.05;
+    prior2_parm2 = 0.15;
+
+    *** DISPERSION PARAMETER FOR BOTH PLACEBO AND TREATMENT NEGBIN DISTRIBUTIONS ***;
+    dispersion = 1;
+
+    output;
+  end;
+  end;
+
+run;
+
+proc mcmc data = parameters1
+          nbi = 200
+		  nmc = 200;
+  prior a ~ uniform(a,b);
+  parms a;
+  model y ~ binary(a);
+  beginnodata;
+    b = exp(a);
+  endnodata;
+run;
+```
+		  
+<br>
+
+### This is some text about code in Python.
+
+<br>		  
+
+```{r, eval=FALSE, hilang="python"}
+## This is the python code
+import numpy as np
+ from scipy import io as sio
+
+ array = np.ones((4, 4))
+ sio.savemat('example.mat', {'ar': array}) 
+ data = sio.loadmat('example.mat', struct_as_record=True)
+ 
+  data['array']
+
+```
+
+<br>
+
+### This is some text about MATLAB.
+
+<br>		  
+
+```{r, eval=FALSE, hilang="matlab"}
+%This is the MATLAB code
+%Create a matrix X of 100 five-dimensional normal variables and a response vector Y from just two components of X, with small added noise.
+X = randn(100,5)
+r = [0;2;0;-3;0] % only two nonzero coefficients
+Y = X*r + randn(100,1)*.1 % small added noise
+```
+
+	
+	
