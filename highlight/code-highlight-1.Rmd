@@ -11,7 +11,7 @@ params:
     - sas
 ---
 
-```{r, child="setup/prism_hilang.Rmd"}
+```{r, child="setup/hilang.Rmd"}
 ```
 
 
